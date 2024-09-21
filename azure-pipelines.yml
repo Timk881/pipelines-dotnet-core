@@ -7,8 +7,10 @@ trigger:
 - master
 
 pool:
-  vmImage: ubuntu-latest
-
+  vmImage: "windows-latest"
+  name: agent 2
+  
+  
 steps:
 - script: echo Hello, world!
   displayName: 'Run a one-line script'
