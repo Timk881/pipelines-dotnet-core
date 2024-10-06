@@ -10,19 +10,15 @@ pool:
   vmImage: "windows-latest"
   name: Testpool
   
-  
-  
-steps:
-- task: PowerShell@2
-  inputs:
-    targetType: 'inline'
-    script: |
-      $filePath = "C:\Program Files (x86)\SAP\FrontEnd\SAPgui\saplogon.exe"
-      Start-Process $filePath
-
-- script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
+jobs:
+- job: RunPowerShellScript
+  steps:
+  - task: PowerShell@2
+    inputs:
+      targetType: 'filePath'
+      filePath: 'C:\Users\tkohlert\Desktop\Powershell.ps1'
+      arguments: ''
+      errorActionPreference: 'stop'
+      failOnStderr: true
  
  
