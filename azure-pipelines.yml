@@ -16,7 +16,7 @@ jobs:
   - task: PowerShell@2
     inputs:
       targetType: 'filePath'
-      filePath: 'C:\Users\tkohlert\Desktop\Powershell.ps1'
+      filePath: 'TestSkript.ps1'
       arguments: ''
       errorActionPreference: 'stop'
       failOnStderr: true
