@@ -30,7 +30,7 @@ jobs:
   dependsOn: Debug
   steps:
   # delete Binaries and Temp folders
-  - powershell: .\tools\ci\scripts\Prepare\Prepare_Pipeline.ps1 -BinariesFolder $env:BUILD_BINARIESDIRECTORY
+  - powershell: C:\Users\tkohlert\Desktop\Testagent\tools\ci\scripts\Prepare\Prepare_Pipeline.ps1 -BinariesFolder $env:BUILD_BINARIESDIRECTORY
     env:
       BUILD_BINARIESDIRECTORY: $Build.BinariesDirectory
     displayName: 'Delete binaries folders'
