@@ -23,7 +23,12 @@ jobs:
       BUILD_SOURCESDIRECTORY: $Build.SourcesDirectory
       BUILD_BINARIESDIRECTORY: $Build.BinariesDirectory
       AGENT_HOMEDIRECTORY: $Agent.HomeDirectory
-      
+  - script: |
+        echo "Current path is:"
+        pwd
+    displayName: 'Print Current Path'
+
+
 # prepare pipeline
 - job: 'Preparing'
   displayName: 'Prepare pipeline'
