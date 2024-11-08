@@ -25,7 +25,7 @@ jobs:
       AGENT_HOMEDIRECTORY: $Agent.HomeDirectory
   - script: |
         echo "Current path is:"
-        pwd
+        echo %cd%  
     displayName: 'Print Current Path'
 
 
