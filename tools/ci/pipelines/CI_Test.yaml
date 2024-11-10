@@ -1,0 +1,51 @@
+name: '[PLC BuR] CI Test'
+variables:
+  projectVersion: 'S5_024_000'
+trigger: none
+#  branches: 
+#     - *
+#  paths:
+#    include: 
+#       - Logical/
+#       - Physical/
+#    exclude: 
+#      - '*.txt'
+#      - '*.md'
+pool:
+  name: 'ErsaOfficePLC'
+resources:
+  repositories:
+  - repository: BuR.InstallPackage
+    type: git
+    name: SPS.Tools/BuR.InstallPackage
+    ref: release/PVI4.12
+
+jobs:
+- job: 'Debug_Test'
+  displayName: 'Printing variables'
+  steps:
+  - powershell: |
+      write-Host "$(projectVersion)"
+      Write-Host "Build.SourcesDirectory is $env:BUILD_SOURCESDIRECTORY"
+      Write-Host "Build.BinariesDirectory is $env:BUILD_BINARIESDIRECTORY"
+      Write-Host "System.DefaultWorkingDirectory is $env:SYSTEM_DEFAULTWORKINGDIRECTORY"
+      Write-Host "Agent.Id is $env:AGENT_ID"
+      Write-Host "Agent.Name is $env:AGENT_NAME"
+      Write-Host "Agent.HomeDirectory is $env:AGENT_HOMEDIRECTORY"
+      Write-Host "Build.SourceBranch is $env:BUILD_SOURCEBRANCH"
+      Write-Host "Build.SourceBranchName is $env:BUILD_SOURCEBRANCHNAME"
+    displayName: 'printing predefined variables'
+    env:
+      BUILD_SOURCESDIRECTORY: $Build.SourcesDirectory
+      BUILD_BINARIESDIRECTORY: $Build.BinariesDirectory
+      SYSTEM_DEFAULTWORKINGDIRECTORY: $System.DefaultWorkingDirectory
+      AGENT_ID: $Agent.Id
+      AGENT_NAME: $Agent.Name
+      AGENT_HOMEDIRECTORY: $Agent.HomeDirectory
+      BUILD_SOURCEBRANCH: $Build.SourceBranch
+      BUILD_SOURCEBRANCHNAME: $Build.SourceBranchName
+
+- job: 'Publish_PVI'
+  displayName: 'Publish PVI, PILs and bats'
+  steps:
+  - template: ..\steps\Publish\PVI.yaml

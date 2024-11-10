@@ -1,0 +1,59 @@
+name: '[PLC BuR] CI Hermes Interface'
+variables:
+  projectVersion: 'T5_003_000'
+trigger: 
+  branches:
+    include:
+     - feature/Transport/*
+     - release/Transport/*
+    exclude:
+     - develop
+  paths:
+    include: 
+       - Logical/BasisRemote
+       - Physical/Remote_CPU_CP0484_BB52
+    exclude: 
+      - '*.txt'
+      - '*.md'
+      - '*.exe'
+      - '*.ps1'
+      - '*.pdf'
+      - '*.xlsx'
+      - '*.docx'
+pool:
+  name: 'ErsaOfficePLC'
+resources:
+  repositories:
+  - repository: BuR.InstallPackage
+    type: git
+    name: SPS.Tools/BuR.InstallPackage
+    ref: release/PVI4.12
+
+jobs:
+- job: 'Remote_CPU_CP0484_BB52'
+  displayName: 'Remote_CPU_CP0484_BB52'
+  steps:
+  - template: ..\steps\Standard\BuildProject_RUC_PIP.yaml
+    parameters:
+      project: Remote_CPU_CP0484_BB52
+      machinetype: RemoteCPU
+      cputype: X20CP0484
+      asversion: AS412
+  - template: ..\steps\Standard\BuildProject_Simulation.yaml
+    parameters:
+      project: Remote_CPU_CP0484_BB52
+      machinetype: RemoteCPU
+      cputype: X20CP0484
+      asversion: AS412
+  - template: ..\steps\Publish\Publish.yaml
+    parameters:
+      project: Remote_CPU_CP0484_BB52
+      machinetype: RemoteCPU
+      cputype: X20CP0484
+      packages: PiP,Simulation,Transfer
+      projectVersion: $(projectVersion)
+
+- job: 'Publish_PVI'
+  displayName: 'Publish PVI, PILs and bats'
+  steps:
+  - template: ..\steps\Publish\PVI.yaml

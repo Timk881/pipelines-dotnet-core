@@ -1,0 +1,10 @@
+steps:
+  - checkout: BuR.InstallPackage
+    displayName: 'Checkout BuR.InstallPackage'
+    path: BuR.InstallPackage
+    condition: startsWith(variables['Build.SourceBranch'], 'refs/heads/release/')
+
+  - publish: $(Build.SourcesDirectory)
+    displayName: 'Publish PVI, PILs and bats'
+    artifact: PVI+PILs+bats
+    condition: startsWith(variables['Build.SourceBranch'], 'refs/heads/release/')

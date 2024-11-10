@@ -1,0 +1,95 @@
+name: '[PLC BuR] CI Selective'
+variables:
+  projectVersion: 'S5_026_000'
+trigger: 
+  branches:
+    include:
+     - feature/Selective/*
+     - release/Selective/*
+    exclude:
+     - develop
+  paths:
+    include: 
+       - Logical/Selektiv
+       - Physical/S_VfOne_APC2200
+       - Physical/S_VfOne_APC2200_5R213
+       - Physical/S_VfOne_APC3100
+    exclude: 
+      - '*.txt'
+      - '*.md'
+      - '*.exe'
+      - '*.ps1'
+      - '*.pdf'
+      - '*.xlsx'
+      - '*.docx'
+pool:
+  name: 'ErsaOfficePLC'
+resources:
+  repositories:
+  - repository: BuR.InstallPackage
+    type: git
+    name: SPS.Tools/BuR.InstallPackage
+    ref: release/PVI4.12
+
+jobs:
+- job: 'S_VfOne_APC2200'
+  displayName: 'S_VfOne_APC2200'
+  steps:
+  - template: ..\steps\mappMotion\BuildProject_RUC_PIP.yaml
+    parameters:
+      project: S_VfOne_APC2200
+      machinetype: Selectiv
+      cputype: 5APC2200_AL04_000
+      asversion: AS412
+  - template: ..\steps\mappMotion\BuildProject_Simulation.yaml
+    parameters:
+      project: S_VfOne_APC2200
+      machinetype: Selectiv
+      cputype: 5APC2200_AL04_000
+      asversion: AS412
+  - template: ..\steps\Publish\Publish.yaml
+    parameters:
+      project: S_VfOne_APC2200
+      machinetype: Selectiv
+      cputype: 5APC2200_AL04_000
+      packages: PiP,Simulation,Transfer
+      projectVersion: $(projectVersion)
+
+- job: 'S_VfOne_APC2200_5R213'
+  displayName: 'S_VfOne_APC2200_5R213'
+  steps:
+  - template: ..\steps\mappMotion\BuildProject_RUC_PIP.yaml
+    parameters:
+      project: S_VfOne_APC2200_5R213
+      machinetype: Selectiv
+      cputype: 5APC2200_AL04_000
+      asversion: AS412
+  - template: ..\steps\Publish\Publish.yaml
+    parameters:
+      project: S_VfOne_APC2200_5R213
+      machinetype: Selectiv
+      cputype: 5APC2200_AL04_000
+      packages: PiP,Transfer
+      projectVersion: $(projectVersion)
+
+- job: 'S_VfOne_APC3100'
+  displayName: 'S_VfOne_APC3100'
+  steps:
+  - template: ..\steps\mappMotion\BuildProject_RUC_PIP.yaml
+    parameters:
+      project: S_VfOne_APC3100
+      machinetype: Selectiv
+      cputype: 5APC3100_KBU0_000
+      asversion: AS412
+  - template: ..\steps\Publish\Publish.yaml
+    parameters:
+      project: S_VfOne_APC3100
+      machinetype: Selectiv
+      cputype: 5APC3100_KBU0_000
+      packages: PiP,Transfer
+      projectVersion: $(projectVersion)
+
+- job: 'Publish_PVI'
+  displayName: 'Publish PVI, PILs and bats'
+  steps:
+  - template: ..\steps\Publish\PVI.yaml

@@ -1,0 +1,95 @@
+name: '[PLC BuR] CI Printer'
+variables:
+  projectVersion: 'P5_007_000'
+trigger: 
+  branches:
+    include:
+     - feature/Print/*
+     - release/Print/*
+    exclude:
+     - develop
+  paths:
+    include: 
+       - Logical/Printer
+       - Physical/Versaprint_2_CP1585
+       - Physical/Versaprint_2_CP1586
+       - Physical/Versaprint_2_CP1685
+    exclude: 
+      - '*.txt'
+      - '*.md'
+      - '*.exe'
+      - '*.ps1'
+      - '*.pdf'
+      - '*.xlsx'
+      - '*.docx'
+pool:
+  name: 'ErsaOfficePLC'
+resources:
+  repositories:
+  - repository: BuR.InstallPackage
+    type: git
+    name: SPS.Tools/BuR.InstallPackage
+    ref: release/PVI4.12
+
+jobs:
+- job: 'Versaprint_2_CP1585'
+  displayName: 'Versaprint_2_CP1585'
+  steps:
+  - template: ..\steps\Standard\BuildProject_RUC_PIP.yaml
+    parameters:
+      project: Versaprint_2_CP1585
+      machinetype: Versaprint
+      cputype: X20CP1585
+      asversion: AS412
+  - template: ..\steps\Publish\Publish.yaml
+    parameters:
+      project: Versaprint_2_CP1585
+      machinetype: Versaprint
+      cputype: X20CP1585
+      packages: PiP,Transfer
+      projectVersion: $(projectVersion)
+      
+- job: 'Versaprint_2_CP1586'
+  displayName: 'Versaprint_2_CP1586'
+  steps:
+  - template: ..\steps\Standard\BuildProject_RUC_PIP.yaml
+    parameters:
+      project: Versaprint_2_CP1586
+      machinetype: Versaprint
+      cputype: X20CP1586
+      asversion: AS412
+  - template: ..\steps\Publish\Publish.yaml
+    parameters:
+      project: Versaprint_2_CP1586
+      machinetype: Versaprint
+      cputype: X20CP1586
+      packages: PiP,Transfer
+      projectVersion: $(projectVersion)
+      
+- job: 'Versaprint_2_CP1685'
+  displayName: 'Versaprint_2_CP1685'
+  steps:
+  - template: ..\steps\Standard\BuildProject_RUC_PIP.yaml
+    parameters:
+      project: Versaprint_2_CP1685
+      machinetype: Versaprint
+      cputype: X20CP1685
+      asversion: AS412
+  - template: ..\steps\Standard\BuildProject_Simulation.yaml
+    parameters:
+      project: Versaprint_2_CP1685
+      machinetype: Versaprint
+      cputype: X20CP1685
+      asversion: AS412
+  - template: ..\steps\Publish\Publish.yaml
+    parameters:
+      project: Versaprint_2_CP1685
+      machinetype: Versaprint
+      cputype: X20CP1685
+      packages: PiP,Simulation,Transfer
+      projectVersion: $(projectVersion)
+
+- job: 'Publish_PVI'
+  displayName: 'Publish PVI, PILs and bats'
+  steps:
+  - template: ..\steps\Publish\PVI.yaml

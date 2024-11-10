@@ -1,0 +1,12 @@
+Connection "/IF=TCPIP /SA=1", "/DA=2 /DAIP=127.0.0.1 /REPO=11160", "WT=10"
+
+WriteVariable "Export\bExport", "BOOL", "1"
+
+Label: "Wait a second"
+Wait "1"
+ReadVariable "Export\bExport", "BOOL"
+IF NOT "0" GOTO "Wait a second"
+
+
+Label: "Exported"
+

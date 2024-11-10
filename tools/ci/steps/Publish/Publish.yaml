@@ -1,0 +1,48 @@
+parameters:
+- name: project 
+  type: string
+- name: machinetype 
+  type: string
+- name: cputype 
+  type: string
+- name: packages
+  type: string
+  default: 'PiP,Simulation,Transfer'
+- name: projectVersion
+  type: string
+
+steps:
+- powershell: |
+    .\tools\ci\scripts\Publish\CompareVersion.ps1 -Project ${{ parameters.project }} -CpuType ${{ parameters.cputype }} -Machinetype ${{ parameters.machinetype }} -Version ${{ parameters.projectVersion }} -SourcesDirectory $env:BUILD_SOURCESDIRECTORY -BinaryDirectory $env:BUILD_BINARIESDIRECTORY
+  displayName: 'Compare version of pipeline and project'
+  env:
+    BUILD_SOURCESDIRECTORY: $Build.SourcesDirectory
+    BUILD_BINARIESDIRECTORY: $Build.BinariesDirectory
+
+- powershell: |
+    .\tools\ci\scripts\Publish\InfoMD.ps1 -Project ${{ parameters.project }} -CpuType ${{ parameters.cputype }} -Machinetype ${{ parameters.machinetype }} -SourcesDirectory $env:BUILD_SOURCESDIRECTORY -BinaryDirectory $env:BUILD_BINARIESDIRECTORY
+  displayName: 'Working with info.md'
+  env:
+    BUILD_SOURCESDIRECTORY: $Build.SourcesDirectory
+    BUILD_BINARIESDIRECTORY: $Build.BinariesDirectory
+
+- ${{ if contains(parameters.packages, 'Transfer') }}:
+  - publish: $(Build.BinariesDirectory)\Publish\${{ parameters.project }}\RUCPackage
+    displayName: 'Publish RUC for ${{ parameters.project }}'
+    artifact: ${{ parameters.projectVersion }}_${{ parameters.project }}_RUC
+
+- ${{ if contains(parameters.packages, 'PiP') }}:
+  - publish: $(Build.BinariesDirectory)\Publish\${{ parameters.project }}\PiP
+    displayName: 'Publish USB/FTP for ${{ parameters.project }}'
+    artifact: ${{ parameters.projectVersion }}_${{ parameters.project }}_USB_FTP
+
+- ${{ if contains(parameters.packages, 'Simulation') }}:
+  - publish: $(Build.BinariesDirectory)\Publish\${{ parameters.project }}\Simulation
+    displayName: 'Publish simulation for ${{ parameters.project }}'
+    artifact: ${{ parameters.projectVersion }}_${{ parameters.project }}_Simulation
+
+- powershell: |
+    .\tools\ci\scripts\Prepare\DeletePublishFolder.ps1 -BinariesFolder $env:BUILD_BINARIESDIRECTORY
+  displayName: 'Delete Publish folder'
+  env:
+    BUILD_BINARIESDIRECTORY: $Build.BinariesDirectory

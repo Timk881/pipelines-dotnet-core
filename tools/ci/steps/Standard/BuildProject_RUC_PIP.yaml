@@ -1,0 +1,49 @@
+parameters:
+- name: project 
+  type: string
+- name: machinetype 
+  type: string
+- name: cputype 
+  type: string
+- name: asversion 
+  type: string
+
+steps:
+- powershell: |
+    .\tools\ci\scripts\Prepare\Prepare_Pipeline.ps1 -BinariesFolder $env:BUILD_BINARIESDIRECTORY
+  env: 
+    BUILD_BINARIESDIRECTORY: $Build.BinariesDirectory
+  displayName: 'Delete binaries'
+
+- powershell: |
+    .\tools\ci\scripts\Compile\otherProjects.ps1 -Project ${{ parameters.project }} -Machinetype ${{ parameters.machinetype }} -ToolPath "D:\Ersa\Tools\BrAutomation\${{ parameters.asversion }}\Bin-en." -SourcesDirectory $env:BUILD_SOURCESDIRECTORY -BinaryDirectory $env:BUILD_BINARIESDIRECTORY
+  displayName: 'Compiling ${{ parameters.project }}'
+  env:
+    BUILD_SOURCESDIRECTORY: $Build.SourcesDirectory
+    BUILD_BINARIESDIRECTORY: $Build.BinariesDirectory
+
+- powershell: |
+    .\tools\ci\scripts\PILs\Create\ARTransfer.ps1 -Project ${{ parameters.project }} -CpuType ${{ parameters.cputype }} -BinaryDirectory $env:BUILD_BINARIESDIRECTORY
+  displayName: 'Create Transfer-PIL for ${{ parameters.project }}'
+  env:
+    BUILD_BINARIESDIRECTORY: $Build.BinariesDirectory
+
+- powershell: |
+    .\tools\ci\scripts\PILs\Create\ARPiP.ps1 -Project ${{ parameters.project }} -Machinetype ${{ parameters.machinetype }} -CpuType ${{ parameters.cputype }} -SourcesDirectory $env:BUILD_SOURCESDIRECTORY -BinaryDirectory $env:BUILD_BINARIESDIRECTORY
+  displayName: 'Create PiP-PIL for ${{ parameters.project }}'
+  env:
+    BUILD_SOURCESDIRECTORY: $Build.SourcesDirectory
+    BUILD_BINARIESDIRECTORY: $Build.BinariesDirectory
+
+- powershell: |
+    .\tools\ci\scripts\PILs\Execute\ARPiP.ps1 -AsVersion ${{ parameters.asversion }} -BinaryDirectory $env:BUILD_BINARIESDIRECTORY
+  displayName: 'Create ARPiP structure'
+  env:
+    BUILD_BINARIESDIRECTORY: $Build.BinariesDirectory
+
+- powershell: |
+    .\tools\ci\scripts\Prepare\MoveRUCintoPublish.ps1 -Project ${{ parameters.project }} -CpuType ${{ parameters.cputype }} -BinaryDirectory $env:BUILD_BINARIESDIRECTORY
+  displayName: 'Move RUC to publish'
+  env:
+    BUILD_SOURCESDIRECTORY: $Build.SourcesDirectory
+    BUILD_BINARIESDIRECTORY: $Build.BinariesDirectory

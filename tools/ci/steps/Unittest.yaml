@@ -1,0 +1,91 @@
+steps:
+- powershell: |
+    .\tools\ci\scripts\Unittest\UnitTest.ps1 -Name ut_EA_Force -ResultPath $env:BUILD_BINARIESDIRECTORY
+  displayName: 'Unittest EA_Force'
+  env:
+    BUILD_BINARIESDIRECTORY: $Build.BinariesDirectory
+- powershell: |
+    .\tools\ci\scripts\Unittest\UnitTest.ps1 -Name ut_FB_EAHandler -ResultPath $env:BUILD_BINARIESDIRECTORY
+  displayName: 'Unittest FB_EAHandler'
+  env:
+    BUILD_BINARIESDIRECTORY: $Build.BinariesDirectory
+- powershell: |
+    .\tools\ci\scripts\Unittest\UnitTest.ps1 -Name ut_FB_Entprellen -ResultPath $env:BUILD_BINARIESDIRECTORY
+  displayName: 'Unittest FB_Entprellen'
+  env:
+    BUILD_BINARIESDIRECTORY: $Build.BinariesDirectory
+- powershell: |
+    .\tools\ci\scripts\Unittest\UnitTest.ps1 -Name ut_CckRang -ResultPath $env:BUILD_BINARIESDIRECTORY
+  displayName: 'Unittest Check Ranges'
+  env:
+    BUILD_BINARIESDIRECTORY: $Build.BinariesDirectory
+- powershell: |
+    .\tools\ci\scripts\Unittest\UnitTest.ps1 -Name ut_FUN_LinScale -ResultPath $env:BUILD_BINARIESDIRECTORY
+  displayName: 'Unittest FUN_LinScale'
+  env:
+    BUILD_BINARIESDIRECTORY: $Build.BinariesDirectory
+- powershell: |
+    .\tools\ci\scripts\Unittest\UnitTest.ps1 -Name ut_AnalogFrc -ResultPath $env:BUILD_BINARIESDIRECTORY
+  displayName: 'Unittest Analogue Forcing'
+  env:
+    BUILD_BINARIESDIRECTORY: $Build.BinariesDirectory
+- powershell: |
+    .\tools\ci\scripts\Unittest\UnitTest.ps1 -Name ut_ButLDT -ResultPath $env:BUILD_BINARIESDIRECTORY
+  displayName: 'Unittest Button LDT'
+  env:
+    BUILD_BINARIESDIRECTORY: $Build.BinariesDirectory
+- powershell: |
+    .\tools\ci\scripts\Unittest\UnitTest.ps1 -Name ut_MemStr -ResultPath $env:BUILD_BINARIESDIRECTORY
+  displayName: 'Unittest MemStr library'
+  env:
+    BUILD_BINARIESDIRECTORY: $Build.BinariesDirectory
+- powershell: |
+    .\tools\ci\scripts\Unittest\UnitTest.ps1 -Name ut_WStr -ResultPath $env:BUILD_BINARIESDIRECTORY
+  displayName: 'Unittest WString'
+  env:
+    BUILD_BINARIESDIRECTORY: $Build.BinariesDirectory
+- powershell: |
+    .\tools\ci\scripts\Unittest\UnitTest.ps1 -Name ut_OEE -ResultPath $env:BUILD_BINARIESDIRECTORY
+  displayName: 'Unittest OEE'
+  env:
+    BUILD_BINARIESDIRECTORY: $Build.BinariesDirectory
+- powershell: |
+    .\tools\ci\scripts\Unittest\UnitTest.ps1 -Name ut_IpcCfx -ResultPath $env:BUILD_BINARIESDIRECTORY
+  displayName: 'Unittest IPC CFX'
+  env:
+    BUILD_BINARIESDIRECTORY: $Build.BinariesDirectory
+- powershell: |
+    .\tools\ci\scripts\Unittest\UnitTest.ps1 -Name ut_OEE_MpVi -ResultPath $env:BUILD_BINARIESDIRECTORY
+  displayName: 'Unittest OEE MpVi'
+  env:
+    BUILD_BINARIESDIRECTORY: $Build.BinariesDirectory
+- powershell: |
+    .\tools\ci\scripts\Unittest\UnitTest.ps1 -Name ut_Ipc_MpVi -ResultPath $env:BUILD_BINARIESDIRECTORY
+  displayName: 'Unittest IPC CFX MpVi'
+  env:
+    BUILD_BINARIESDIRECTORY: $Build.BinariesDirectory
+- powershell: |
+    .\tools\ci\scripts\Unittest\UnitTest.ps1 -Name ut_Average -ResultPath $env:BUILD_BINARIESDIRECTORY
+  displayName: 'Unittest FB_AverageXxx'
+  env:
+    BUILD_BINARIESDIRECTORY: $Build.BinariesDirectory
+- powershell: |
+    .\tools\ci\scripts\Unittest\UnitTest.ps1 -Name ut_Mittelwert -ResultPath $env:BUILD_BINARIESDIRECTORY
+  displayName: 'Unittest FB_xxxMittelwert'
+  env:
+    BUILD_BINARIESDIRECTORY: $Build.BinariesDirectory
+- powershell: |
+    .\tools\ci\scripts\Unittest\UnitTest.ps1 -Name ut_Queue -ResultPath $env:BUILD_BINARIESDIRECTORY
+  displayName: 'Unittest FB_MsgQueue'
+  env:
+    BUILD_BINARIESDIRECTORY: $Build.BinariesDirectory
+- powershell: |
+    .\tools\ci\scripts\Unittest\UnitTest.ps1 -Name ut_Consis -ResultPath $env:BUILD_BINARIESDIRECTORY
+  displayName: 'Unittest ConsistentContainer'
+  env:
+    BUILD_BINARIESDIRECTORY: $Build.BinariesDirectory
+- powershell: |
+    .\tools\ci\scripts\Unittest\UnitTest.ps1 -Name ut_MvAdmin -ResultPath $env:BUILD_BINARIESDIRECTORY
+  displayName: 'Unittest MvAdmin (actual only FUN_MvPageInitActive)'
+  env:
+    BUILD_BINARIESDIRECTORY: $Build.BinariesDirectory

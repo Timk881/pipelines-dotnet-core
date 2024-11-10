@@ -1,0 +1,59 @@
+name: '[PLC BuR] CI Fitting'
+variables:
+  projectVersion: 'F5_000_000'
+trigger: 
+  branches:
+    include:
+     - feature/Fit/*
+     - release/Fit/*
+    exclude:
+     - develop
+  paths:
+    include: 
+       - Logical/Fitting
+       - Physical/Versafit_CP3586
+    exclude: 
+      - '*.txt'
+      - '*.md'
+      - '*.exe'
+      - '*.ps1'
+      - '*.pdf'
+      - '*.xlsx'
+      - '*.docx'
+pool:
+  name: 'ErsaOfficePLC'
+resources:
+  repositories:
+  - repository: BuR.InstallPackage
+    type: git
+    name: SPS.Tools/BuR.InstallPackage
+    ref: release/PVI4.12
+
+jobs:
+- job: 'Versafit_CP3586'
+  displayName: 'Versafit_CP3586'
+  steps:
+  - template: ..\steps\mappMotion\BuildProject_RUC_PIP.yaml
+    parameters:
+      project: Versafit_CP3586
+      machinetype: Versafit
+      cputype: X20CP3586
+      asversion: AS412
+  - template: ..\steps\mappMotion\BuildProject_Simulation.yaml
+    parameters:
+      project: Versafit_CP3586
+      machinetype: Versafit
+      cputype: X20CP3586
+      asversion: AS412
+  - template: ..\steps\Publish\Publish.yaml
+    parameters:
+      project: Versafit_CP3586
+      machinetype: Versafit
+      cputype: X20CP3586
+      packages: PiP,Simulation,Transfer
+      projectVersion: $(projectVersion)
+
+- job: 'Publish_PVI'
+  displayName: 'Publish PVI, PILs and bats'
+  steps:
+  - template: ..\steps\Publish\PVI.yaml

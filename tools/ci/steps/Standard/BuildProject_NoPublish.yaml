@@ -1,0 +1,23 @@
+parameters:
+- name: project 
+  type: string
+- name: machinetype 
+  type: string
+- name: cputype 
+  type: string
+- name: asversion 
+  type: string
+
+steps:
+- powershell: |
+    .\tools\ci\scripts\Prepare\Prepare_Pipeline.ps1 -BinariesFolder $env:BUILD_BINARIESDIRECTORY
+  env: 
+    BUILD_BINARIESDIRECTORY: $Build.BinariesDirectory
+  displayName: 'Delete binaries'
+
+- powershell: |
+    .\tools\ci\scripts\Compile\otherProjects.ps1 -Project ${{ parameters.project }} -Machinetype ${{ parameters.machinetype }} -ToolPath "D:\Ersa\Tools\BrAutomation\${{ parameters.asversion }}\Bin-en." -SourcesDirectory $env:BUILD_SOURCESDIRECTORY -BinaryDirectory $env:BUILD_BINARIESDIRECTORY
+  displayName: 'Compiling ${{ parameters.project }}'
+  env:
+    BUILD_SOURCESDIRECTORY: $Build.SourcesDirectory
+    BUILD_BINARIESDIRECTORY: $Build.BinariesDirectory

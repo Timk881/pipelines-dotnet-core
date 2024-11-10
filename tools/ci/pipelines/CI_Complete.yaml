@@ -1,0 +1,133 @@
+name: '[PLC BuR] CI Complete'
+# standard options
+trigger: none
+#  branches: 
+#     - *
+#  paths:
+#    include: 
+#       - Logical/
+#       - Physical/
+#    exclude: 
+#      - '*.txt'
+#      - '*.md'
+pool:
+  name: 'ErsaOfficePLC'
+
+jobs:
+# selective
+- job: 'selective_projects'
+  displayName: 'projects of selective machines'
+  steps:
+  - template: ..\steps\mappMotion\BuildProject_NoPublish.yaml
+    parameters:
+      project: S_VfOne_APC2200
+      machinetype: Selectiv
+      cputype: 5APC2200_AL04_000
+      asversion: AS412
+  - template: ..\steps\mappMotion\BuildProject_NoPublish.yaml
+    parameters:
+      project: S_VfOne_APC3100
+      machinetype: Selectiv
+      cputype: 5APC3100_KBU0_000
+      asversion: AS412
+
+# fitting --> commented out, as not currently supported 
+#- job: 'fit_projects'
+#  displayName: 'projects of fitting machines'
+#  steps:
+#  - template: ..\steps\mappMotion\BuildProject_NoPublish.yaml
+#    parameters:
+#      project: Versafit_CP3586
+#      machinetype: Versafit
+#      cputype: X20CP3586
+#      asversion: AS412
+
+# wave
+- job: 'wave_projects'
+  displayName: 'projects of wave machines'
+  steps:
+  - template: ..\steps\Standard\BuildProject_NoPublish.yaml
+    parameters:
+      project: Powerflow_Pro_CP1586
+      machinetype: Powerflow
+      cputype: X20CP1586
+      asversion: AS412
+  - template: ..\steps\Standard\BuildProject_NoPublish.yaml
+    parameters:
+      project: Powerflow_Ultra_CP1586
+      machinetype: Powerflow
+      cputype: X20CP1586
+      asversion: AS412
+
+# reflow
+- job: 'reflow_projects'
+  displayName: 'projects of reflow machines'
+  steps:
+  - template: ..\steps\Standard\BuildProject_NoPublish.yaml
+    parameters:
+      project: R_EXOS_CP3586
+      machinetype: Reflow
+      cputype: X20CP3586
+      asversion: AS412
+  - template: ..\steps\Standard\BuildProject_NoPublish.yaml
+    parameters:
+      project: R_HF5_CP3685
+      machinetype: Reflow
+      cputype: X20CP3685
+      asversion: AS412
+
+# print
+- job: 'print_projects'
+  displayName: 'projects of printing machines'
+  steps:
+  - template: ..\steps\Standard\BuildProject_NoPublish.yaml
+    parameters:
+      project: Versaprint_2_CP1585
+      machinetype: Versaprint
+      cputype: X20CP1585
+      asversion: AS412
+  - template: ..\steps\Standard\BuildProject_NoPublish.yaml
+    parameters:
+      project: Versaprint_2_CP1586
+      machinetype: Versaprint
+      cputype: X20CP1586
+      asversion: AS412
+
+# hermes interface
+- job: 'hermes_project'
+  displayName: 'project of hermes interface'
+  steps:
+  - template: ..\steps\Standard\BuildProject_NoPublish.yaml
+    parameters:
+      project: Remote_CPU_CP0484_BB52
+      machinetype: RemoteCPU
+      cputype: X20CP0484
+      asversion: AS412
+
+# basic projects
+- job: 'basic_projects'
+  displayName: 'projects of basic components'
+  steps:
+  - template: ..\steps\Standard\BuildProject_NoPublish.yaml
+    parameters:
+      project: Basis_minimum_CP1686X
+      machinetype: template
+      cputype: X20CP1686X
+      asversion: AS412
+  - template: ..\steps\mappMotion\BuildProject_NoPublish.yaml
+    parameters:
+      project: Basis_CP1686X
+      machinetype: template
+      cputype: X20CP1686X
+      asversion: AS412
+
+# unittest project, will be compiled to be safe that the unittest pipeline won't failed
+- job: 'unittest_configuration'
+  displayName: 'configuration of unittest'
+  steps:
+  - template: ..\steps\Standard\BuildProject_NoPublish.yaml
+    parameters:
+      project: Basis_UnitTest
+      machinetype: UnitTest
+      cputype: PC
+      asversion: AS412

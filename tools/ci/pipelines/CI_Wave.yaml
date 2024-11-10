@@ -1,0 +1,119 @@
+name: '[PLC BuR] CI Wave'
+variables:
+  projectVersion: 'W5_016_007'
+trigger: 
+  branches:
+    include:
+     - feature/Wave/*
+     - release/Wave/*
+    exclude:
+     - develop
+  paths:
+    include: 
+       - Logical/Welle
+       - Physical/Powerflow_Pro_CP1586
+       - Physical/Powerflow_Pro_CP1686X
+       - Physical/Powerflow_Ultra_CP1586
+       - Physical/Powerflow_Ultra_CP1686X
+    exclude: 
+      - '*.txt'
+      - '*.md'
+      - '*.exe'
+      - '*.ps1'
+      - '*.pdf'
+      - '*.xlsx'
+      - '*.docx'
+pool:
+  name: 'ErsaOfficePLC'
+resources:
+  repositories:
+  - repository: BuR.InstallPackage
+    type: git
+    name: SPS.Tools/BuR.InstallPackage
+    ref: release/PVI4.12
+
+jobs:
+- job: 'Powerflow_Pro_CP1586'
+  displayName: 'Powerflow_Pro_CP1586'
+  steps:
+  - template: ..\steps\Standard\BuildProject_RUC_PIP.yaml
+    parameters:
+      project: Powerflow_Pro_CP1586
+      machinetype: Powerflow
+      cputype: X20CP1586
+      asversion: AS412
+  - template: ..\steps\Standard\BuildProject_Simulation.yaml
+    parameters:
+      project: Powerflow_Pro_CP1586
+      machinetype: Powerflow
+      cputype: X20CP1586
+      asversion: AS412
+  - template: ..\steps\Publish\Publish.yaml
+    parameters:
+      project: Powerflow_Pro_CP1586
+      machinetype: Powerflow
+      cputype: X20CP1586
+      packages: PiP,Simulation,Transfer
+      projectVersion: $(projectVersion)
+
+- job: 'Powerflow_Pro_CP1686X'
+  displayName: 'Powerflow_Pro_CP1686X'
+  steps:
+  - template: ..\steps\Standard\BuildProject_RUC_PIP.yaml
+    parameters:
+      project: Powerflow_Pro_CP1686X
+      machinetype: Powerflow
+      cputype: X20CP1686X
+      asversion: AS412
+  - template: ..\steps\Publish\Publish.yaml
+    parameters:
+      project: Powerflow_Pro_CP1686X
+      machinetype: Powerflow
+      cputype: X20CP1686X
+      packages: PiP,Transfer
+      projectVersion: $(projectVersion)
+
+- job: 'Powerflow_Ultra_CP1586'
+  displayName: 'Powerflow_Ultra_CP1586'
+  steps:
+  - template: ..\steps\Standard\BuildProject_RUC_PIP.yaml
+    parameters:
+      project: Powerflow_Ultra_CP1586
+      machinetype: Powerflow
+      cputype: X20CP1586
+      asversion: AS412
+  - template: ..\steps\Standard\BuildProject_Simulation.yaml
+    parameters:
+      project: Powerflow_Ultra_CP1586
+      machinetype: Powerflow
+      cputype: X20CP1586
+      asversion: AS412
+  - template: ..\steps\Publish\Publish.yaml
+    parameters:
+      project: Powerflow_Ultra_CP1586
+      machinetype: Powerflow
+      cputype: X20CP1586
+      packages: PiP,Simulation,Transfer
+      projectVersion: $(projectVersion)
+
+- job: 'Powerflow_Ultra_CP1686X'
+  displayName: 'Powerflow_Ultra_CP1686X'
+  steps:
+  - template: ..\steps\Standard\BuildProject_RUC_PIP.yaml
+    parameters:
+      project: Powerflow_Ultra_CP1686X
+      machinetype: Powerflow
+      cputype: X20CP1686X    
+      asversion: AS412
+  - template: ..\steps\Publish\Publish.yaml
+    parameters:
+      project: Powerflow_Ultra_CP1686X
+      machinetype: Powerflow
+      cputype: X20CP1686X
+      packages: PiP,Transfer
+      projectVersion: $(projectVersion)
+
+- job: 'Publish_PVI'
+  displayName: 'Publish PVI, PILs and bats'
+  steps:
+  - template: ..\steps\Publish\PVI.yaml
