@@ -60,11 +60,11 @@ jobs:
       displayName: 'Exchange unittest project'
     # create the testobject
   
-    - powershell: .\tools\ci\scripts\Unittest\sccx\sccx_TestObject.ps1 -Workspace $env:BUILD_SOURCESDIRECTORY -sccxPath ".\tools\sccx" -exportPath $env:BUILD_BINARIESDIRECTORY
-      env:
-        BUILD_SOURCESDIRECTORY: $Build.SourcesDirectory
-        BUILD_BINARIESDIRECTORY: $Build.BinariesDirectory
-      displayName: 'Create testobject'
+   # - powershell: .\tools\ci\scripts\Unittest\sccx\sccx_TestObject.ps1 -Workspace $env:BUILD_SOURCESDIRECTORY -sccxPath ".\tools\sccx" -exportPath $env:BUILD_BINARIESDIRECTORY
+    #  env:
+     #   BUILD_SOURCESDIRECTORY: $Build.SourcesDirectory
+      #  BUILD_BINARIESDIRECTORY: $Build.BinariesDirectory
+      #displayName: 'Create testobject'
 
 
 
