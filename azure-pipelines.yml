@@ -70,3 +70,19 @@ jobs:
   - powershell: .\tools\ci\scripts\PILs\Create\ARsim.ps1 -BinaryDirectory $env:BUILD_BINARIESDIRECTORY -Project TS_UnitTest_Sample -CpuType PC -StartSimulation
     env:
       BUILD_BINARIESDIRECTORY: $Build.BinariesDirectory
+      
+#======================================================================
+# Testing and Evaluate project
+# building and starting simulation environment and unittesting incl. code coverage
+#----------------------------------------------------------------------
+
+# start the ARsim and working with the localhost
+- job: 'Work_with_simulation'
+  displayName: 'Work with simulation'
+  dependsOn: Create_PIL
+  steps:
+  # execute PIL
+  - powershell: .\tools\ci\scripts\Unittest\BuildAndStartARsim.ps1 -Toolpath "D:\Ersa\Tools\BrAutomation\PVI\V4.12\PVI\Tools\PVITransfer." -BinaryDirectory $env:BUILD_BINARIESDIRECTORY
+    displayName: 'Build and Start ARsim'
+    env:
+      BUILD_BINARIESDIRECTORY: $Build.BinariesDirectory
