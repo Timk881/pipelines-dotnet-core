@@ -49,29 +49,10 @@ jobs:
 #----------------------------------------------------------------------
 
 
-- job: 'ExchangeCreate_Project'
-  displayName: 'Exchange and create testobject'
-  dependsOn: Preparing
-  steps:
-    # exchange unittest project   brauchen wir das ? 
-    - powershell: .\tools\ci\scripts\Prepare\Exchange_otherProject.ps1 -Machinetype UnitTest -SourcesDirectory $env:BUILD_SOURCESDIRECTORY
-      env:
-        BUILD_SOURCESDIRECTORY: $Build.SourcesDirectory
-      displayName: 'Exchange unittest project'
-    # create the testobject
-  
-   # - powershell: .\tools\ci\scripts\Unittest\sccx\sccx_TestObject.ps1 -Workspace $env:BUILD_SOURCESDIRECTORY -sccxPath ".\tools\sccx" -exportPath $env:BUILD_BINARIESDIRECTORY
-    #  env:
-     #   BUILD_SOURCESDIRECTORY: $Build.SourcesDirectory
-      #  BUILD_BINARIESDIRECTORY: $Build.BinariesDirectory
-      #displayName: 'Create testobject'
-
-
-
   # compiling the testobject
 - job: 'Compiling'
     
-  dependsOn: ExchangeCreate_Project
+  dependsOn: Preparing
   steps:
     - powershell: |
         .\tools\ci\scripts\Unittest\CompileTestObject.ps1 -Project Basis_UnitTest -ToolPath "C:\BRAutomation" -ToolVersion AS412 -SourcesDirectory $env:BUILD_SOURCESDIRECTORY -BinaryDirectory $env:BUILD_BINARIESDIRECTORY
