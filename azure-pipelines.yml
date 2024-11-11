@@ -82,7 +82,7 @@ jobs:
   dependsOn: Create_PIL
   steps:
   # execute PIL
-  - powershell: .\tools\ci\scripts\Unittest\BuildAndStartARsim.ps1 -Toolpath "D:\Ersa\Tools\BrAutomation\PVI\V4.12\PVI\Tools\PVITransfer." -BinaryDirectory $env:BUILD_BINARIESDIRECTORY
+  - powershell: .\tools\ci\scripts\Unittest\BuildAndStartARsim.ps1 -Toolpath "C:\BRAutomation\PVI\V4.12\PVI\Tools\PVITransfer." -BinaryDirectory $env:BUILD_BINARIESDIRECTORY
     displayName: 'Build and Start ARsim'
     env:
       BUILD_BINARIESDIRECTORY: $Build.BinariesDirectory
