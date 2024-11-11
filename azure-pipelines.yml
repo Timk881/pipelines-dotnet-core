@@ -74,7 +74,7 @@ jobs:
   dependsOn: ExchangeCreate_Project
   steps:
     - powershell: |
-        .\tools\ci\scripts\Unittest\CompileTestObject.ps1 -Project Basis_UnitTest -ToolPath "D:\Ersa\Tools\BrAutomation" -ToolVersion AS412 -SourcesDirectory $env:BUILD_SOURCESDIRECTORY -BinaryDirectory $env:BUILD_BINARIESDIRECTORY
+        .\tools\ci\scripts\Unittest\CompileTestObject.ps1 -Project Basis_UnitTest -ToolPath "C:\BRAutomation" -ToolVersion AS412 -SourcesDirectory $env:BUILD_SOURCESDIRECTORY -BinaryDirectory $env:BUILD_BINARIESDIRECTORY
       env:
         BUILD_SOURCESDIRECTORY: $Build.SourcesDirectory
         BUILD_BINARIESDIRECTORY: $Build.BinariesDirectory
