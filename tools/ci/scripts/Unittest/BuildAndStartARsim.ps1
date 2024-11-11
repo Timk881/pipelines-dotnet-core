@@ -27,7 +27,7 @@
     Write-Host "--------------------------------------------------------"
 
     # start ARsim
-    Start-Process -FilePath "$ToolPath\PviTransfer.exe" -ArgumentList "$BinaryDirectory\CreateNewARsim.pil -silent" -WindowStyle Hidden -PassThru
+    Start-Process -FilePath "$ToolPath\PviTransfer.exe" -ArgumentList "$BinaryDirectory\CreateNewARsim.pil -silent" -WindowStyle -PassThru
 
     # giving ARsim the chance to take off
     Start-Sleep -Seconds 30
