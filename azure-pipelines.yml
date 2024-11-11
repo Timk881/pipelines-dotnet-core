@@ -67,7 +67,7 @@ jobs:
   displayName: 'Create the ARsim PIL'
   dependsOn: Compiling
   steps:
-  - powershell: .\tools\ci\scripts\PILs\Create\ARsim.ps1 -BinaryDirectory $env:BUILD_BINARIESDIRECTORY -Project TS_UnitTest_Sample -CpuType PC -StartSimulation
+  - powershell: .\tools\ci\scripts\PILs\Create\ARsim.ps1 -BinaryDirectory $env:BUILD_BINARIESDIRECTORY -Project TS_UnitTest_Sample -CpuType PC_any -StartSimulation
     env:
       BUILD_BINARIESDIRECTORY: $Build.BinariesDirectory
       
