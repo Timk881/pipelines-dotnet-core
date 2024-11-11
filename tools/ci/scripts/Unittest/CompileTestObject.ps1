@@ -13,7 +13,7 @@
     $Parent = Split-Path $SourcesDirectory -Parent
 
     # start build process
-    $Build = Start-Process -FilePath "$ToolPath\$ToolVersion\Bin-en.\BR.AS.Build.exe" -ArgumentList "$SourcesDirectory\WorkProject\BasisProject.apj  -c $Project -o $BinaryDirectory\Binaries -t $BinaryDirectory\Temp -all -buildRUCPackage" -RedirectStandardOutput "$BinaryDirectory\$Project.txt" -WindowStyle Hidden -Wait -PassThru
+    $Build = Start-Process -FilePath "$ToolPath\$ToolVersion\Bin-en.\BR.AS.Build.exe" -ArgumentList "C:\SPS\Unittest\TechnikerProjektarbeit\WorkProject\BasisProject.apj  -c $Project -o $BinaryDirectory\Binaries -t $BinaryDirectory\Temp -all -buildRUCPackage" -RedirectStandardOutput "$BinaryDirectory\$Project.txt" -WindowStyle Hidden -Wait -PassThru
     # show complete compile result
     Get-Content $BinaryDirectory\$Project.txt
 
