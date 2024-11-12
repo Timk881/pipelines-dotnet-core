@@ -87,4 +87,15 @@ jobs:
     env:
       BUILD_BINARIESDIRECTORY: $Build.BinariesDirectory
 
-      
+# test connection
+  - powershell: Invoke-WebRequest -Uri http://127.0.0.1/sdm/index.html -UseBasicParsing
+    displayName: 'Testing connection to ARsim'
+  # unittesting
+  
+  - powershell:     .\tools\ci\scripts\Unittest\UnitTest.ps1 -Name ut_EA_Force -ResultPath $env:BUILD_BINARIESDIRECTORY
+    displayName: 'Unittest EA_Force'
+    env:
+      BUILD_BINARIESDIRECTORY: $Build.BinariesDirectory
+
+   
+    
