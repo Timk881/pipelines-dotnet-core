@@ -89,7 +89,7 @@ jobs:
     displayName: 'Testing connection to ARsim'
   # unittesting
   
-  - powershell:     .\tools\ci\scripts\Unittest\UnitTest.ps1 -Name ut_ProcEngine -ResultPath $env:BUILD_BINARIESDIRECTORY
+  - powershell:     .\tools\ci\scripts\Unittest\UnitTest.ps1 -Name mt_ProcEng  -ResultPath $env:BUILD_BINARIESDIRECTORY
     displayName: 'Unittest EA_Force'
     env:
       BUILD_BINARIESDIRECTORY: $Build.BinariesDirectory
