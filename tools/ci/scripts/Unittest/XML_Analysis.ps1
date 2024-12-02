@@ -1,9 +1,12 @@
 function checkResult {
     param(
-        [string]$Testname
+        [string]$Testname,
+        [string]$ResultPath
     )
 
-    $FilePath = "C:\Users\tkohlert\Desktop\Testagent\_work\2\b\TestResults\$Testname.xml"
+    Write-Host "ResultPath: $ResultPath"
+
+    $FilePath = "$ResultPath\TestResults\$Testname.xml"
     [xml]$xmlData = Get-Content -Path $FilePath
     $properties = $xmlData.testsuites.testsuite.properties.property
 
