@@ -1,7 +1,7 @@
 function checkResult {
     param(
-        [string]$Testname,
-        [string]$ResultPath
+        [string]$ResultPath,
+        [string]$Testname
     )
 
     Write-Host "ResultPath: $ResultPath"
