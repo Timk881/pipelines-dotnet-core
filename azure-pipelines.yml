@@ -13,10 +13,8 @@ jobs:
   steps:
   
   - powershell: 
-      Write-Host "Build.BinariesDirectory is $env:BUILD_BINARIESDIRECTORY"
      .\tools\ci\scripts\Unittest\XML_Analysis.ps1 -ResultPath $env:BUILD_BINARIESDIRECTORY
     env:
       BUILD_BINARIESDIRECTORY: $Build.BinariesDirectory
 
-   
-    
+  
