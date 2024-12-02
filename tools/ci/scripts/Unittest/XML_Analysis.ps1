@@ -7,14 +7,6 @@ $FilePath="C:\Users\tkohlert\Desktop\Testagent\_work\2\b\TestResults\$Testname.x
 
 [xml]$xmlData = Get-Content -Path $FilePath
 
-
- # Testcases
-    $totalTestcases = $properties | Where-Object { $_.name -eq "TotalTestcases" } | Select-Object -ExpandProperty value
-    $successfulTestcases = $properties | Where-Object { $_.name -eq "SuccessfullTestcases" } | Select-Object -ExpandProperty value
-    $skippedTestcases = $properties | Where-Object { $_.name -eq "SkippedTestcases" } | Select-Object -ExpandProperty value
-
-    Write-Output "Debugging TotalTestcases: '$totalTestcases'"
-    Write-Output "Debugging SuccessfulTestcases: '$successfulTestcases'"
     # Testcases
     $totalTestcases = $xmlData.testsuites.testsuite.properties.property | Where-Object { $_.name -eq "TotalTestcases" } | Select-Object -ExpandProperty value
     $successfulTestcases = $xmlData.testsuites.testsuite.properties.property |Where-Object { $_.name -eq "SuccessfullTestcases" } |Select-Object -ExpandProperty value
@@ -26,10 +18,9 @@ $FilePath="C:\Users\tkohlert\Desktop\Testagent\_work\2\b\TestResults\$Testname.x
     #Aborts
     $totalAborted = $xmlData.testsuites.testsuite.properties.property | Where-Object { $_.name -eq "TotalAborted" } | Select-Object -ExpandProperty value
 
-
-$xmlData.testsuites.testsuite.properties.property | ForEach-Object { Write-Output "$($_.name) = $($_.value)" }
-
-
+$totalTestcases = [int]($totalTestcases.Trim())
+$successfulTestcases = [int]($successfulTestcases.Trim())
+    
 Write-Output "Debugging TotalTestcases: '$totalTestcases'"
 Write-Output "Debugging SuccessfullTestcases: '$successfullTestcases'"
 
