@@ -8,96 +8,10 @@ pool:
   
 jobs:
 
-- job: 'Debug'
-  displayName: 'Printing debug variables'
-  steps:
-  - powershell: |
-      Write-Host "Build.SourcesDirectory is $env:BUILD_SOURCESDIRECTORY"
-      Write-Host "Build.BinariesDirectory is $env:BUILD_BINARIESDIRECTORY"
-      Write-Host "Agent.HomeDirectory is $env:AGENT_HOMEDIRECTORY"
-    displayName: 'printing predefined variables'
-    env:
-      BUILD_SOURCESDIRECTORY: $Build.SourcesDirectory
-      BUILD_BINARIESDIRECTORY: $Build.BinariesDirectory
-      AGENT_HOMEDIRECTORY: $Agent.HomeDirectory
-  - script: |
-        echo "Current path is:"
-        echo %cd%  
-    displayName: 'Print Current Path'
-
-
-# prepare pipeline
-- job: 'Preparing'
-  displayName: 'Prepare pipeline'
-  dependsOn: Debug
-  steps:
-  # delete Binaries and Temp folders
-  - powershell: .\tools\ci\scripts\Prepare\Prepare_Pipeline.ps1 -BinariesFolder $env:BUILD_BINARIESDIRECTORY
-    env:
-      BUILD_BINARIESDIRECTORY: $Build.BinariesDirectory
-    displayName: 'Delete binaries folders'
-  - powershell: .\tools\ci\scripts\Unittest\Prepare_Unittests.ps1 -ResultFolder $env:BUILD_BINARIESDIRECTORY
-    env:
-      BUILD_BINARIESDIRECTORY: $Build.BinariesDirectory
-    displayName: 'prepare unittest folders'
- 
-#======================================================================
-# Arranging the testobject and the Unittests
-#----------------------------------------------------------------------
-
-
-  # compiling the testobject
-- job: 'Compiling'
-    
-  dependsOn: Preparing
-  steps:
-    - powershell: |
-        .\tools\ci\scripts\Unittest\CompileTestObject.ps1 -Project TS_UnitTest_Sample -ToolPath "C:\BRAutomation" -ToolVersion AS412 -SourcesDirectory $env:BUILD_SOURCESDIRECTORY -BinaryDirectory $env:BUILD_BINARIESDIRECTORY
-      env:
-        BUILD_SOURCESDIRECTORY: $Build.SourcesDirectory
-        BUILD_BINARIESDIRECTORY: $Build.BinariesDirectory
- 
-
- 
-    # create PIL for Building a ARsim
-- job: 'Create_PIL'
-  displayName: 'Create the ARsim PIL'
-  dependsOn: Compiling
-  steps:
-  - powershell: .\tools\ci\scripts\PILs\Create\ARsim.ps1 -BinaryDirectory $env:BUILD_BINARIESDIRECTORY -Project TS_UnitTest_Sample -CpuType PC_any -StartSimulation
-    env:
-      BUILD_BINARIESDIRECTORY: $Build.BinariesDirectory
-      
-#======================================================================
-# Testing and Evaluate project
-# building and starting simulation environment and unittesting incl. code coverage
-#----------------------------------------------------------------------
-
-# start the ARsim and working with the localhost
-- job: 'Work_with_simulation'
-  displayName: 'Work with simulation'
-  dependsOn: Create_PIL
-  steps:
-  # execute PIL
-  - powershell: .\tools\ci\scripts\Unittest\BuildAndStartARsim.ps1 -Toolpath "C:\BRAutomation\PVI\V4.12\PVI\Tools\PVITransfer" -BinaryDirectory $env:BUILD_BINARIESDIRECTORY
-    displayName: 'Build and Start ARsim'
-    env:
-      BUILD_BINARIESDIRECTORY: $Build.BinariesDirectory
-
-# test connection
-  - powershell: Invoke-WebRequest -Uri http://127.0.0.1/sdm/index.html -UseBasicParsing
-    displayName: 'Testing connection to ARsim'
-  # unittesting
-  
-  - powershell:     .\tools\ci\scripts\Unittest\UnitTest.ps1 -Name mt_ProcEng  -ResultPath $env:BUILD_BINARIESDIRECTORY
-    displayName: 'Unittest EA_Force'
-    env:
-      BUILD_BINARIESDIRECTORY: $Build.BinariesDirectory
 - job: 'AnalyseXML'
   displayName: 'AnalyseXML'
-  dependsOn: Work_with_simulation
   steps:
-  - powershell: C:\Users\tkohlert\Desktop\EigeneYamlDatei\XML_Analysis.ps1
+  - powershell: .\tools\scripts\Unittest\XML_Analysis.ps1
     env:
       BUILD_BINARIESDIRECTORY: $Build.BinariesDirectory
 
