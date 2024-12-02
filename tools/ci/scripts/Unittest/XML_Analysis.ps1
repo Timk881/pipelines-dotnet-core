@@ -8,17 +8,17 @@ $FilePath="C:\Users\tkohlert\Desktop\Testagent\_work\2\b\TestResults\$Testname.x
 [xml]$xmlData = Get-Content -Path $FilePath
 
     # Testcases
-    $totalTestCases = $xmlData.testsuites.testsuite.properties.property | Where-Object { $_.name -eq "TotalTestcases" } | Select-Object -ExpandProperty value
-    $succesfullTestCases = $xmlData.testsuites.testsuite.properties.property | Where-Object { $_.name -eq "SuccessfullTestcases" } | Select-Object -ExpandProperty value
-    $skippedTestCases = $xmlData.testsuites.testsuite.properties.property | Where-Object { $_.name -eq "SkippedTestcases" } | Select-Object -ExpandProperty value
+    $totalTestcases = $xmlData.testsuites.testsuite.properties.property | Where-Object { $_.name -eq "TotalTestcases" } | Select-Object -ExpandProperty value
+    $succesfullTestcases = $xmlData.testsuites.testsuite.properties.property | Where-Object { $_.name -eq "SuccessfullTestcases" } | Select-Object -ExpandProperty value
+    $skippedTestcases = $xmlData.testsuites.testsuite.properties.property | Where-Object { $_.name -eq "SkippedTestcases" } | Select-Object -ExpandProperty value
     # Asserts
     $totalAsserts = $xmlData.testsuites.testsuite.properties.property | Where-Object { $_.name -eq "totalAsserts" } | Select-Object -ExpandProperty value
-    $TotalAssertsFailures = $xmlData.testsuites.testsuite.properties.property | Where-Object { $_.name -eq "TotalAssertsFailures" } | Select-Object -ExpandProperty value
-    $TotalAssertsPassed = $xmlData.testsuites.testsuite.properties.property | Where-Object { $_.name -eq "TotalAssertsPassed" } | Select-Object -ExpandProperty value
+    $totalAssertsfailures = $xmlData.testsuites.testsuite.properties.property | Where-Object { $_.name -eq "TotalAssertsFailures" } | Select-Object -ExpandProperty value
+    $totalAssertspassed = $xmlData.testsuites.testsuite.properties.property | Where-Object { $_.name -eq "TotalAssertsPassed" } | Select-Object -ExpandProperty value
     #Aborts
-    $TotalAborted = $xmlData.testsuites.testsuite.properties.property | Where-Object { $_.name -eq "TotalAborted" } | Select-Object -ExpandProperty value
+    $totalAborted = $xmlData.testsuites.testsuite.properties.property | Where-Object { $_.name -eq "TotalAborted" } | Select-Object -ExpandProperty value
     
-  if ($totalAssertsFailures -gt 0) {
+  if ($totalAssertsfailures -gt 0) {
         Write-Output "Error ${Testname}: There are failed assertions."
         exit -1
     }
@@ -38,7 +38,7 @@ $FilePath="C:\Users\tkohlert\Desktop\Testagent\_work\2\b\TestResults\$Testname.x
         exit -1
     }
 
-    if ($totalAsserts -ne $totalAssertsPassed) {
+    if ($totalAsserts -ne $totalAssertspassed) {
         Write-Output "Error ${Testname}: Not all assertions passed."
         exit -1
     }
