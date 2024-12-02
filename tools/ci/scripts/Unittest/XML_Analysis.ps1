@@ -48,3 +48,4 @@ function checkResult {
 }
 
 checkResult -Testname "TEST_mt_ProcEng"
+checkResult -Testname "TEST_ut_ProcEng"
