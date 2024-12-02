@@ -9,7 +9,7 @@ $FilePath="C:\Users\tkohlert\Desktop\Testagent\_work\2\b\TestResults\$Testname.x
 
     # Testcases
     $totalTestcases = $xmlData.testsuites.testsuite.properties.property | Where-Object { $_.name -eq "TotalTestcases" } | Select-Object -ExpandProperty value
-    $succesfullTestcases = $xmlData.testsuites.testsuite.properties.property | Where-Object { $_.name -eq "SuccessfullTestcases" } | Select-Object -ExpandProperty value
+    $successfulTestcases = $xmlData.testsuites.testsuite.properties.property |Where-Object { $_.name -eq "SuccessfullTestcases" } |Select-Object -ExpandProperty value
     $skippedTestcases = $xmlData.testsuites.testsuite.properties.property | Where-Object { $_.name -eq "SkippedTestcases" } | Select-Object -ExpandProperty value
     # Asserts
     $totalAsserts = $xmlData.testsuites.testsuite.properties.property | Where-Object { $_.name -eq "totalAsserts" } | Select-Object -ExpandProperty value
