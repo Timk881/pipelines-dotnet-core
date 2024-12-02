@@ -21,7 +21,7 @@ function checkResult {
 
 
     $totalTestcases = [int]($totalTestcases.Trim())
-    $successfulTestcases = if ($successfulTestcases) { [int]($successfulTestcases.Trim()) } else { 0 }
+ 
 
 
     
