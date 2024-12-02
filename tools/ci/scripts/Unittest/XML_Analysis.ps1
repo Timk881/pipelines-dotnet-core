@@ -18,10 +18,8 @@ $FilePath="C:\Users\tkohlert\Desktop\Testagent\_work\2\b\TestResults\$Testname.x
     #Aborts
     $totalAborted = $xmlData.testsuites.testsuite.properties.property | Where-Object { $_.name -eq "TotalAborted" } | Select-Object -ExpandProperty value
     
-$totalTestcases = [int]($totalTestcases)
-$successfullTestcases = [int]($successfullTestcases)
-Write-Output "TotalTestcases: $totalTestcases"
-Write-Output "SuccessfullTestcases: $succesfullTestcases"
+Write-Output "Debugging TotalTestcases: '$totalTestcases'"
+Write-Output "Debugging SuccessfullTestcases: '$successfullTestcases'"
 
     
   if ($totalAssertsfailures -gt 0) {
