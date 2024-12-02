@@ -12,9 +12,8 @@ jobs:
   displayName: 'AnalyseXML'
   steps:
   
-  - powershell: 
-     .\tools\ci\scripts\Unittest\XML_Analysis.ps1 -ResultPath $env:BUILD_BINARIESDIRECTORY
+  - powershell: .\tools\ci\scripts\Unittest\XML_Analysis.ps1 -ResultPath $env:BUILD_BINARIESDIRECTORY
     env:
-      BUILD_BINARIESDIRECTORY: $Build.BinariesDirectory
+     BUILD_BINARIESDIRECTORY: $Build.BinariesDirectory
 
   
